@@ -133,10 +133,23 @@ public class PacketEncoder_v766 extends PacketEncoder {
         var packet = new CraftingDataPacket();
         getData().recipeTable().encodedRecipes().stream()
                 .map(PacketEncoder_v766::copyRecipeData)
-                .forEach(packet.getCraftingData()::add);
+                .forEach(recipe -> addRecipeData(packet, recipe));
         packet.getPotionMixData().addAll(getData().recipeTable().potionMixes());
         packet.setCleanRecipes(true);
         return packet;
+    }
+
+    private static void addRecipeData(CraftingDataPacket packet, RecipeData recipe) {
+        packet.getCraftingData().add(recipe);
+        switch (recipe) {
+            case ShapedRecipeData shaped -> packet.getShapedData().add(shaped);
+            case ShapelessRecipeData shapeless -> packet.getShapelessData().add(shapeless);
+            case SmithingTransformRecipeData smithing -> packet.getSmithingTransformData().add(smithing);
+            case SmithingTrimRecipeData smithing -> packet.getSmithingTrimData().add(smithing);
+            case MultiRecipeData multi -> packet.getMultiData().add(multi);
+            default -> {
+            }
+        }
     }
 
     @Override

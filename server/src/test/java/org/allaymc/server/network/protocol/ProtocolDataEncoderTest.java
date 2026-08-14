@@ -206,6 +206,23 @@ class ProtocolDataEncoderTest {
         }
     }
 
+    @Test
+    void v2168CraftingDataFillsPerTypeRecipeLists() {
+        var v2168 = protocol(2168);
+        var packet = v2168.getEncoder().encodeCraftingData();
+        assertPacketEncodes(v2168, packet);
+
+        var typed = packet.getShapedData().size() + packet.getShapelessData().size() +
+                packet.getMultiData().size() + packet.getSmithingTransformData().size() +
+                packet.getSmithingTrimData().size();
+        assertEquals(packet.getCraftingData().size(), typed);
+        assertFalse(packet.getShapedData().isEmpty());
+        assertFalse(packet.getShapelessData().isEmpty());
+        assertFalse(packet.getMultiData().isEmpty());
+        assertFalse(packet.getSmithingTransformData().isEmpty());
+        assertFalse(packet.getSmithingTrimData().isEmpty());
+    }
+
     private static Protocol protocol(int version) {
         var protocol = registry.resolve(ClientVariant.INTERNATIONAL, version);
         assertNotNull(protocol);

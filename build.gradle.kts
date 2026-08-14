@@ -37,6 +37,7 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven("https://www.jetbrains.com/intellij-repository/releases/")
         maven("https://repo.opencollab.dev/maven-releases/")
