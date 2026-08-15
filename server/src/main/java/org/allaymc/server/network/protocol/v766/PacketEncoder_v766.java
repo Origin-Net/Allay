@@ -2328,17 +2328,17 @@ public class PacketEncoder_v766 extends PacketEncoder {
             boolean add,
             boolean trustSkins
     ) {
-        Objects.requireNonNull(players, "players");
+Objects.requireNonNull(players, "players");
         var packet = new PlayerListPacket();
         packet.setAction(add ? PlayerListPacket.Action.ADD : PlayerListPacket.Action.REMOVE);
+        var action = packet.getAction();
         for (var player : players) {
             var entry = new PlayerListPacket.Entry(player.getLoginData().getUuid());
+            entry.setAction(action);
             var entity = Objects.requireNonNull(player.getControlledEntity(), "controlledEntity");
             entry.setEntityId(entity.getUniqueId().getLeastSignificantBits());
             entry.setName(player.getOriginName());
             entry.setXuid(player.getLoginData().getXuid());
-            entry.setPlatformChatId(player.getLoginData().getDeviceInfo().deviceName());
-            entry.setBuildPlatform(BuildPlatform.from(player.getLoginData().getDeviceInfo().device().getId()));
             entry.setSkin(SkinConvertor.toSerializedSkin(player.getLoginData().getSkin()));
             entry.setTrustedSkin(trustSkins);
             entry.setColor(new Color(player.getOriginName().hashCode() & 0xFFFFFF));

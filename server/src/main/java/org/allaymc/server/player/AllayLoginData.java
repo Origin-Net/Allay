@@ -198,9 +198,8 @@ public class AllayLoginData implements LoginData {
             skinBuilder.capeId(skinMap.get("CapeId").getAsString());
         }
 
-        if (skinMap.has("SkinColor")) {
-            skinBuilder.skinColor(skinMap.get("SkinColor").getAsString());
-        }
+        var skinColor = skinMap.has("SkinColor") ? skinMap.get("SkinColor").getAsString() : "";
+        skinBuilder.skinColor(skinColor.isBlank() ? "#0" : skinColor);
 
         if (skinMap.has("ArmSize")) {
             skinBuilder.armSize(skinMap.get("ArmSize").getAsString());
