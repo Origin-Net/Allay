@@ -14,7 +14,7 @@ Unless otherwise specified, any version comparison below is the comparison of th
 
 ### Added
 
-- Added support for MCBE 1.26.40 (protocol 2168), including the new poplar leaf particle types and straw bed sound events.
+- Added support for MCBE 1.26.40-1.26.44 (protocol 2168), including the new poplar leaf particle types and straw bed sound events.
 - Added support for NetEase protocol v860 (Minecraft 1.21.124).
 - Introduced new multi version architecture (mvv2).
 

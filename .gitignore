@@ -42,3 +42,16 @@
 /server/operators.yml
 /server/server-settings.yml
 /server/whitelist.yml
+
+# Root-level runtime files (server run from repo root)
+/ban-info.yml
+/biome-ids.yml
+/command_data
+/console.log
+/dimension-ids.yml
+/logs
+/operators.yml
+/players
+/server-settings.yml
+/whitelist.yml
+/worlds
