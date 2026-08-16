@@ -91,18 +91,13 @@ public class EntityArrowPhysicsComponentImpl extends EntityProjectilePhysicsComp
 
             double damage = arrowBaseComponent.getBaseDamage();
             if (projectileComponent.getShooter() instanceof EntityPlayer) {
-                damage = damage
-                         + 0.11 * getDifficultyBonus()
-                         + 0.25 * ThreadLocalRandom.current().nextGaussian()
-                         + 0.97 * motion.length();
+                // MCBE: damage = ceil(speed x baseDamage); crit adds a
+                // random bonus in [0, floor(damage/2) + 1]. Full bow charge:
+                // ceil(3.0 x 2) = 6, crit 6-10; crossbow: ceil(3.15 x 2) = 7, crit 7-11
+                damage = Math.ceil(motion.length() * damage);
                 if (arrowBaseComponent.isCritical()) {
-                    double criticalBonus = 0.5 * ThreadLocalRandom.current().nextDouble() * damage + 2 * ThreadLocalRandom.current().nextDouble();
-                    double criticalDamage = damage + criticalBonus;
-                    damage = Math.max(10, Math.min(9, criticalDamage));
+                    damage += ThreadLocalRandom.current().nextInt((int) (damage / 2 + 2));
                 }
-            }
-            if (arrowBaseComponent.getPowerLevel() > 0) {
-                damage = 1.25 * damage + 0.25 * arrowBaseComponent.getPowerLevel() + damage;
             }
 
             var damageContainer = DamageContainer.projectile(thisEntity, (float) damage);
@@ -147,17 +142,8 @@ public class EntityArrowPhysicsComponentImpl extends EntityProjectilePhysicsComp
         this.motion.zero();
     }
 
-    private void addHitSound(Vector3dc hitPos) {
+private void addHitSound(Vector3dc hitPos) {
         this.arrowBaseComponent.getDimension().addSound(hitPos, SimpleSound.ARROW_HIT);
-    }
-
-    private int getDifficultyBonus() {
-        return switch (thisEntity.getWorld().getWorldData().getDifficulty()) {
-            case EASY -> 1;
-            case NORMAL -> 2;
-            case HARD -> 3;
-            default -> 0;
-        };
     }
 
     @Override

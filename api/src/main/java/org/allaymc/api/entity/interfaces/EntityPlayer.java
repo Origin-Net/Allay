@@ -197,6 +197,11 @@ public interface EntityPlayer extends
         }
 
         container.setHandSlot(handSlot);
+        // Cancel any in-progress item use (bow draw, eating) when the held item
+        // changes: the client stops sending use actions after a slot switch, so
+        // lingering state would keep the old charge time or feed the new item
+        setUsingItemInAir(false);
+        setUsingItemOnBlock(false);
         forEachViewers(viewer -> viewer.viewEntityHand(this));
         if (serverSide) {
             var controller = getController();

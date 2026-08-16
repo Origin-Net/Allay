@@ -39,7 +39,9 @@ public class InventoryTransactionPacketProcessor extends PacketProcessor<Invento
     public static final int ITEM_RELEASE_RELEASE = 0;
     public static final int ITEM_RELEASE_CONSUME = 1;
 
-    private static final long SPAM_CLICK_THRESHOLD_MS = 100;
+    // Fast but legitimate click rates (12-14cps, ~70-83ms) must not be suppressed, or
+// rapid placement bursts desync into ghost blocks; only true double-clicks (<50ms)
+private static final long SPAM_CLICK_THRESHOLD_MS = 50;
 
     private long lastClickTime;
     private Vector3ic lastBlockPos;
